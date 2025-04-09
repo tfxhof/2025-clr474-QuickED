@@ -9,6 +9,16 @@
     box-sizing: border-box;
   }
 
+  .limit {
+    color: gray;
+    font-weight: normal;
+  }
+  
+  .limit.reached {
+    color: red;
+    font-weight: bold;
+  }
+
   /* Fondo y alineación */
   /**
   body {
@@ -50,7 +60,7 @@
   height: auto;
   }
 
-  /* Contenedor de caja de texto + subtitulo */
+  /* Contenedor de caja de texto + subtitulo + boton*/
   .box {
     display: flex;
     flex-direction: column; 
@@ -100,6 +110,7 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    margin-top: 20px
   }
 
   /* Botón "Start Editing" */
@@ -130,3 +141,73 @@
   button.back-edit:hover {
    background-color: #0056b3;
   }
+
+  /* Botón "Generate and copy URL" */
+  button.copy-url {
+    background-color: #ff0008;
+    color: #fff;
+  }
+  button.copy-url:hover {
+    background-color: #890307;
+  }
+
+  /* Ventana de copiar URL */
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .modal {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal h2 {
+    margin-bottom: 1rem;
+  }
+  
+  .url-display {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-family: monospace;
+  }
+
+  .modal-buttons{
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  button.copy-url-modal {
+    background-color: #2baa00; 
+  }
+
+  button.copy-url-modal:hover {
+    background-color: #038039; 
+  }
+
+  button.close-url-modal {
+    background-color: #FFFFFF; 
+    color: #ff0008;
+  }
+
+  button.close-url-modal:hover {
+    color: #890307; 
+  }
+
