@@ -1,5 +1,6 @@
 <script>
   import "../routes/page.css";
+  import { diffWords } from 'diff';
 
   // Enumerado para los estados
   const States = {
@@ -34,7 +35,7 @@
   $: isMax400 = estado === States.Inicio && text.length >= 400;
   $: isMax600 = estado === States.Editando && text.length >= 600;
 
-  //Generar URL
+  //URL
   let URL = "";
   let mostrarURLModal = false;
   function generateURL() {
@@ -57,6 +58,9 @@
   function closeURL() {
     mostrarURLModal = false;
   }
+
+  //Diff 
+  $: diffResult = diffWords(baseText, finalText);
 </script>
 
 <main>
@@ -100,11 +104,26 @@
           <textarea readonly class="initial-text" value={baseText}></textarea>
           <button class="back-edit" on:click={backEdit}>&#8592; Back to Edit</button>
         </div>
+        <!-- Sin cambios
         <div class="box">
           <h2>Final Text</h2>
           <textarea readonly class="confirmed-text" value={finalText}></textarea>
           <button class="copy-url" on:click={generateURL}>Generate and copy URL</button>
         </div>
+        -->
+        <!-- Con cambios-->
+        <div class="box">
+          <h2>Final text(diff)</h2>
+          <div class="diff-textarea">
+            {#each diffResult as part}
+              <span class:added={part.added} class:removed={part.removed}>
+                {part.value}
+              </span>
+            {/each}
+          </div>
+          <button class="copy-url" on:click={generateURL}>Generate and copy URL</button>
+        </div>
+        
         {#if mostrarURLModal}
           <!-- svelte-ignore a11y_click_events_have_key_events -->
           <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -113,7 +132,7 @@
               <h2>Generated URL</h2>
               <input type="text" readonly value={URL} class="url-display" />
               <div class="modal-buttons">
-                <button class="cop" on:click={copiarURL}>Copy</button>
+                <button class="copy-url" on:click={copiarURL}>Copy</button>
                 <button class="close-url-modal" on:click={closeURL}>Close</button>
               </div>
             </div>

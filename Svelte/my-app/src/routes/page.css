@@ -211,3 +211,30 @@
     color: #890307; 
   }
 
+  /* Estilos para texto con diff */
+  .diff-textarea {
+    width: 90%; 
+    height: 400px; 
+    padding: 20px;
+    border: 2px solid black;
+    resize: none;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    justify-content: center;
+  }
+  
+  .diff-textarea .added {
+    background-color: #d4fcd4;
+    color: green;
+  }
+  
+  .diff-textarea .removed {
+    background-color: #ffd6d6;
+    color: red;
+    text-decoration: line-through;
+  }
+  
