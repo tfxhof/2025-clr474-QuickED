@@ -7,6 +7,7 @@
     Inicio: "Inicio",
     Editando: "Editando",
     MostrarAmbos: "MostrarAmbos",
+    MostrarFinal: "MostrarFinal",
   };
   let estado = States.Inicio;
   let text = ""; 
@@ -61,16 +62,28 @@
 
   //Diff 
   $: diffResult = diffWords(baseText, finalText);
+
+  // Alterar mostrar cambios o no
+  let mostrarCambios = true;
+  function toggleMostrarCambios() {
+    mostrarCambios = !mostrarCambios;
+  }
+  function toggleEstadoFinal() {
+    if (estado === States.MostrarAmbos) {
+      estado = States.MostrarFinal;
+    } else if (estado === States.MostrarFinal) {
+      estado = States.MostrarAmbos;
+    }
+  }
+
 </script>
 
 <main>
   <!-- Título -->
   <h1>QuickED</h1>
 
-
   <!-- Caja de texto -->
   <div class="content">
-
     {#if estado === States.Inicio}
     <div class="box">
       <h2>Insert the base text before start</h2>
@@ -81,7 +94,6 @@
         placeholder="Insert the base text (400 char max)"
         maxlength="400">
       </textarea>
-      <button class="start-editing" on:click={startEditing}>Start editing</button>
     </div>
     {/if}
     {#if estado === States.Editando}
@@ -93,53 +105,127 @@
           class="edit"
           maxlength="600">
         </textarea>
-        <button class="confirm-changes" on:click={confirmChanges}>Confirm changes</button>
       </div>
     {/if}
 
     {#if estado === States.MostrarAmbos}
-      <div class="content">
+      <!-- Con cambios-->
+      {#if mostrarCambios}
         <div class="box">
           <h2>Base Text</h2>
-          <textarea readonly class="initial-text" value={baseText}></textarea>
-          <button class="back-edit" on:click={backEdit}>&#8592; Back to Edit</button>
-        </div>
-        <!-- Sin cambios
+          <div class="diff-textarea">
+            {#each diffResult as part}
+              {#if !part.added}
+                <span class:removed={part.removed}>
+                  {@html part.value.replace(/\n/g, '<br>')} <!-- Reemplazar saltos de línea por <br> -->
+                </span>
+              {/if}  
+            {/each}
+          </div>
+        </div>  
         <div class="box">
           <h2>Final Text</h2>
-          <textarea readonly class="confirmed-text" value={finalText}></textarea>
-          <button class="copy-url" on:click={generateURL}>Generate and copy URL</button>
+          <div class="diff-textarea">
+            {#each diffResult as part}
+              {#if !part.removed}
+                <span class:added={part.added}>
+                  {@html part.value.replace(/\n/g, '<br>')}
+                </span>
+              {/if}  
+            {/each}
+          </div>
         </div>
-        -->
-        <!-- Con cambios-->
+      {/if}
+      <!-- Sin cambios-->
+      {#if !mostrarCambios}
         <div class="box">
-          <h2>Final text(diff)</h2>
+          <h2>Base Text</h2>
+          <textarea readonly value={baseText}></textarea>
+        </div>
+        <div class="box">
+          <h2>Final Text</h2>
+          <textarea readonly value={finalText}></textarea>
+        </div>
+      {/if}        
+    {/if}
+
+    {#if estado === States.MostrarFinal}
+      <!-- Con cambios-->
+      {#if mostrarCambios}
+        <div class="box">
+          <h2>Final Text</h2>
           <div class="diff-textarea">
             {#each diffResult as part}
               <span class:added={part.added} class:removed={part.removed}>
-                {part.value}
+                {@html part.value.replace(/\n/g, '<br>')}
               </span>
             {/each}
           </div>
-          <button class="copy-url" on:click={generateURL}>Generate and copy URL</button>
+        </div>  
+      {/if}
+      {#if !mostrarCambios}
+        <!-- Sin cambios-->
+        <div class="box">
+          <h2>Final Text</h2>
+          <textarea readonly value={finalText}></textarea>
         </div>
-        
-        {#if mostrarURLModal}
-          <!-- svelte-ignore a11y_click_events_have_key_events -->
-          <!-- svelte-ignore a11y_no_static_element_interactions -->
-          <div class="modal-backdrop" on:click={closeURL}>
-            <div class="modal" on:click|stopPropagation>
-              <h2>Generated URL</h2>
-              <input type="text" readonly value={URL} class="url-display" />
-              <div class="modal-buttons">
-                <button class="copy-url" on:click={copiarURL}>Copy</button>
-                <button class="close-url-modal" on:click={closeURL}>Close</button>
-              </div>
-            </div>
-           </div> 
-        {/if}
-      </div>
+      {/if}
     {/if}
+
 	</div>
+
+  <!-- Botón para mostrar/ocultar cambios -->
+  {#if estado === States.MostrarAmbos || estado === States.MostrarFinal}
+    <!-- Botón para mostrar/ocultar cambios -->
+    <!-- Toggle Switch -->
+    <div class="toggle-container">
+      <label class="switch">
+        <input type="checkbox" bind:checked={mostrarCambios} />
+        <span class="slider"></span>
+      </label>
+      <span class="toggle-label">Highlight Changes</span>
+
+      <!-- Nuevo checkbox -->
+      <label class="checkbox-label">
+        <input type="checkbox" on:change={toggleEstadoFinal}/>
+        Show only final text
+      </label>
+    </div>
+  {/if}
+
+  <!-- Pie de página con los botones -->
+  <div class="footer">
+    {#if estado === States.Inicio}
+      <button class="start-editing" on:click={startEditing}>Start editing</button>
+    {/if}
+
+    {#if estado === States.Editando}
+      <button class="confirm-changes" on:click={confirmChanges}>Confirm changes</button>
+    {/if}
+
+    {#if estado === States.MostrarAmbos || estado === States.MostrarFinal}
+      <div class="footer-section">
+        <button class="back-edit" on:click={backEdit}>&#8592; Back to Edit</button>
+      </div>
+      <div class="footer-section">
+        <button class="copy-url" on:click={generateURL}>Generate and copy URL</button>
+      </div>
+      <!--Ventana copiarURL-->
+      {#if mostrarURLModal}
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <div class="modal-backdrop" on:click={closeURL}>
+        <div class="modal" on:click|stopPropagation>
+          <h2>Generated URL</h2>
+          <input type="text" readonly value={URL} class="url-display" />
+          <div class="modal-buttons">
+            <button class="copy-url" on:click={copiarURL}>Copy</button>
+            <button class="close-url-modal" on:click={closeURL}>Close</button>
+          </div>
+        </div>
+        </div> 
+      {/if}
+    {/if}
+  </div>
 </main>
 

@@ -76,6 +76,7 @@
     border: 2px solid black;
     resize: none;
     font-size: 1rem;
+    font-family: Arial;
     color: #333;
     background-color: #fff;
     border-radius: 8px;
@@ -98,7 +99,13 @@
 
   /* Contenedor del botón centrado */
   .footer {
-    margin-top: 40px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .footer-section {
+    flex: 1; /* Mismo espacio */
     display: flex;
     justify-content: center;
   }
@@ -213,18 +220,20 @@
 
   /* Estilos para texto con diff */
   .diff-textarea {
-    width: 90%; 
+    width: 70%; 
     height: 400px; 
     padding: 20px;
     border: 2px solid black;
     resize: none;
     font-size: 1rem;
+    font-family: Arial;
     color: #333;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
     justify-content: center;
+    overflow: auto;
   }
   
   .diff-textarea .added {
@@ -235,6 +244,77 @@
   .diff-textarea .removed {
     background-color: #ffd6d6;
     color: red;
-    text-decoration: line-through;
+    /*text-decoration: line-through;*/
   }
   
+  /* Toggle  switch*/
+  .toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .toggle-label {
+    margin-left: 10px;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 24px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #038039;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(22px);
+  }
+
+  /* Checkobox */
+  .checkbox-label {
+    margin-left: 20px;
+    font-size: 1rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkbox-label input {
+    margin-right: 8px;
+  }
