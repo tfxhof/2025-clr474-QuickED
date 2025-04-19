@@ -185,11 +185,11 @@
       </label>
       <span class="toggle-label">Highlight Changes</span>
 
-      <!-- Nuevo checkbox -->
-      <label class="checkbox-label">
-        <input type="checkbox" on:change={toggleEstadoFinal}/>
-        Show only final text
+      <label class="switch">
+        <input type="checkbox" on:change={toggleEstadoFinal} />
+        <span class="slider"></span>
       </label>
+      <span class="toggle-label">Show only final text</span>
     </div>
   {/if}
 
