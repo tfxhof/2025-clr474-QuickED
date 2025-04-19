@@ -13,17 +13,34 @@
   let text = ""; 
   let baseText = "";
   let finalText = "";
+  let warningMessage = "";
+  let mostrarWarningModal = false;
 
   // Función para guardar el texto
   function startEditing() {
-    baseText = text;
-    estado = States.Editando;
+    if (text.length > 400) {
+      warningMessage = "The base text exceeds the 400-character limit.";
+      mostrarWarningModal = true;
+    } else {
+      baseText = text;
+      estado = States.Editando;
+    }
   }
 
   // Función para confirmar los cambios
   function confirmChanges() {
-    finalText = text;
-    estado = States.MostrarAmbos
+    if (text.length > 600) {
+      warningMessage = "The edited text exceeds the 600-character limit.";
+      mostrarWarningModal = true;
+    } else {
+      finalText = text;
+      estado = States.MostrarAmbos
+    }  
+  }
+
+  // Función para cerrar el modal de advertencia
+  function closeWarningModal() {
+    mostrarWarningModal = false;
   }
 
   // Función para confirmar los cambios
@@ -31,10 +48,6 @@
     finalText = text;
     estado = States.Editando
   }
-
-  //Modificar color si se llega al limite de caracteres
-  $: isMax400 = estado === States.Inicio && text.length >= 400;
-  $: isMax600 = estado === States.Editando && text.length >= 600;
 
   //URL
   let URL = "";
@@ -87,23 +100,21 @@
     {#if estado === States.Inicio}
     <div class="box">
       <h2>Insert the base text before start</h2>
-        <span class="limit" class:reached={isMax400}> (400 char max)</span>
+      <span class="limit" class:reached={text.length > 400}>{text.length}/400 characters</span>
       <textarea 
         bind:value={text} 
         class="edit"
-        placeholder="Insert the base text (400 char max)"
-        maxlength="400">
+        placeholder="Insert the base text (400 char max)">
       </textarea>
     </div>
     {/if}
     {#if estado === States.Editando}
       <div class="box">
         <h2>You are editing...</h2>
-        <span class="limit" class:reached={isMax600}> (600 char max)</span>
+        <span class="limit" class:reached={text.length > 600}>{text.length}/600 characters</span>
         <textarea 
           bind:value={text} 
-          class="edit"
-          maxlength="600">
+          class="edit">
         </textarea>
       </div>
     {/if}
@@ -203,6 +214,19 @@
       <button class="confirm-changes" on:click={confirmChanges}>Confirm changes</button>
     {/if}
 
+    <!-- Modal de advertencia -->
+    {#if mostrarWarningModal}
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <div class="modal-backdrop" on:click={closeWarningModal}>
+        <div class="modal" on:click|stopPropagation>
+          <h2>Warning</h2>
+          <p>{warningMessage}</p>
+          <button class="close-warning-modal" on:click={closeWarningModal}>Close</button>
+        </div>
+      </div>
+    {/if}
+
     {#if estado === States.MostrarAmbos || estado === States.MostrarFinal}
       <div class="footer-section">
         <button class="back-edit" on:click={backEdit}>&#8592; Back to Edit</button>
@@ -212,17 +236,17 @@
       </div>
       <!--Ventana copiarURL-->
       {#if mostrarURLModal}
-      <!-- svelte-ignore a11y_click_events_have_key_events -->
-      <!-- svelte-ignore a11y_no_static_element_interactions -->
-      <div class="modal-backdrop" on:click={closeURL}>
-        <div class="modal" on:click|stopPropagation>
-          <h2>Generated URL</h2>
-          <input type="text" readonly value={URL} class="url-display" />
-          <div class="modal-buttons">
-            <button class="copy-url" on:click={copiarURL}>Copy</button>
-            <button class="close-url-modal" on:click={closeURL}>Close</button>
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div class="modal-backdrop" on:click={closeURL}>
+          <div class="modal" on:click|stopPropagation>
+            <h2>Generated URL</h2>
+            <input type="text" readonly value={URL} class="url-display" />
+            <div class="modal-buttons">
+              <button class="copy-url" on:click={copiarURL}>Copy</button>
+              <button class="close-url-modal" on:click={closeURL}>Close</button>
+            </div>
           </div>
-        </div>
         </div> 
       {/if}
     {/if}

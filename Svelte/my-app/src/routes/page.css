@@ -21,6 +21,13 @@
     font-weight: bold;
   }
 
+  .warning {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
   /* Fondo y alineación */
   /**
   body {
@@ -157,6 +164,20 @@
     color: #fff;
   }
   button.copy-url:hover {
+    background-color: #890307;
+  }
+
+  /* Alerta por caracteres*/
+  button.close-warning-modal {
+    background-color: #ff0008;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  button.close-warning-modal:hover {
     background-color: #890307;
   }
 
