@@ -95,8 +95,8 @@
   }
 
   textarea.edit:focus {
-    border-color: blue; /* Borde azul cuando está enfocado */
-    outline: none; /* Eliminar el borde externo predeterminado del navegador */
+    border-color: blue; 
+    outline: none; 
   }
 
   /* Cajas para mostrar ambos textos a la vez */
@@ -166,6 +166,17 @@
   button.copy-url:hover {
     background-color: #890307;
   }
+
+  /* Botón "Copy */
+  button.copy-text {
+    background-color: #ffae00;
+    color: #fff;
+  }
+  
+  button.copy-text:hover {
+    background-color: #d29003;
+  }
+   
 
   /* Alerta por caracteres*/
   button.close-warning-modal {
