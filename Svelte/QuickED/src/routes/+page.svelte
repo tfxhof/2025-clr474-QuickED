@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import "../routes/page.css";
   import { diffWords } from 'diff';
+  import { base } from '$app/paths';
 
   // State Enumeration
   const States = {
@@ -73,7 +74,7 @@
     finalText = text;
     state = States.Editing
     // Cambiar la URL sin recargar la página
-    window.history.pushState({}, "", window.location.origin);
+    window.history.pushState({}, "", `${base}/`);
   }
 
   //URL
@@ -83,9 +84,9 @@
 
   // Generate URL with base and final text
   function generateURL() {
-    let base = encodeURIComponent(baseText);
-    let final = encodeURIComponent(finalText);
-    URL = `/?base=${base}&final=${final}`;
+    let baseTextURI = encodeURIComponent(baseText);
+    let finalTextURI = encodeURIComponent(finalText);
+    URL = `${base}/?base=${baseTextURI}&final=${finalTextURI}`;
   }
 
   // Show URL modal
