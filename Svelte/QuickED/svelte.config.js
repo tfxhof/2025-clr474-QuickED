@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-cloudflare';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -9,7 +9,7 @@ const config = {
 			fallback: 'index.html',
 		  }),
 		paths: {
-            base: '/QuickED' // URI base para GitHub Pages
+            base: ''
         },
 	}
 };
