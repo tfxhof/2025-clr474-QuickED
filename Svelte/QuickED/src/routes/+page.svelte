@@ -126,7 +126,7 @@
 
   // Show URL modal
   function showURL() {
-    generateURL
+    generateURL();
     showURLModal = true;
   }
 
@@ -147,7 +147,7 @@
   }
   
   // Read URL parameters
-  function reedURLParameters() {
+  function readURLParameters() {
     const params = new URLSearchParams(window.location.search);
     baseText = decodeURIComponent(params.get("base") || "");
     finalText = decodeURIComponent(params.get("final") || "");
@@ -163,7 +163,7 @@
   
   // Check if there are parameters in the URL
   onMount(() => {
-    reedURLParameters();
+    readURLParameters();
   });
   
 
