@@ -27,6 +27,9 @@
     if (text.length > 400) {
       warningMessage = "The base text exceeds the 400-character limit.";
       showWarningModal = true;
+    } else if (text.trim().length === 0) {
+      warningMessage = "The base text cannot be empty.";
+      showWarningModal = true;
     } else {
       baseText = text;
       state = States.Editing;
@@ -44,7 +47,7 @@
       finalText = text;
       state = States.ShowBoth
       generateURL();
-      // Cambiar la URL sin recargar la página
+      // Change the URL without reloading the page
       window.history.pushState({}, "", URL);
     }  
   }
@@ -68,12 +71,44 @@
     });
   } 
 
+  let showNewQuickEDModal = false;
+
+  function openNewQuickEDModal() {
+    showNewQuickEDModal = true;
+  }
+
+  function closeNewQuickEDModal() {
+    showNewQuickEDModal = false;
+  }
+
+  // Create a new empty QuickED
+  function newEmptyQuickED() {
+    text = "";
+    baseText = "";
+    finalText = "";
+    state = States.Init;
+    editorMode = true;
+    showNewQuickEDModal = false;
+    window.history.pushState({}, "", `${base}/`);
+  }
+
+  // Use final text as base text
+  function useFinalTextAsBase() {
+    text = finalText;
+    baseText = finalText;
+    finalText = "";
+    state = States.Init;
+    editorMode = true;
+    showNewQuickEDModal = false;
+    window.history.pushState({}, "", `${base}/`);
+  }
+
   // editor mode
   // Back to edit state
   function backEdit() {
     finalText = text;
     state = States.Editing
-    // Cambiar la URL sin recargar la página
+    // Change the URL without reloading the page
     window.history.pushState({}, "", `${base}/`);
   }
 
@@ -298,8 +333,31 @@
       {/if}
       <!-- Non editor mode-->
       {#if !editorMode}
-        <button class="copy-text" on:click={copyFinalText}>Copy Final Text</button>
+        <div class="footer-section">
+          <button class="new-quicked" on:click={openNewQuickEDModal}>New QuickED</button>
+        </div>
+        <div class="footer-section">
+          <button class="copy-text" on:click={copyFinalText}>Copy Final Text</button>
+        </div> 
       {/if}
+
+      {#if showNewQuickEDModal}
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div class="modal-backdrop" on:click={closeNewQuickEDModal}>
+          <div class="modal" on:click|stopPropagation>
+            <h2>New QuickED</h2>
+            <p>Choose an option:</p>
+            <div class="modal-buttons">
+              <button class="new-empty" on:click={newEmptyQuickED}>New Empty QuickED</button>
+              <button class="use-final-as-base" on:click={useFinalTextAsBase}>Use current final text as base text</button>
+            </div>
+            <button class="close-modal" on:click={closeNewQuickEDModal}>Cancel</button>
+          </div>
+        </div>
+      {/if}
+
+
 
       <!--Show URL Modal-->
       {#if showURLModal}
