@@ -2,7 +2,6 @@
   import { onMount } from "svelte";
   import "../routes/page.css";
   import { diffWords } from 'diff';
-  import { base } from '$app/paths';
 
   // State Enumeration
   const States = {
@@ -89,7 +88,7 @@
     state = States.Init;
     editorMode = true;
     showNewQuickEDModal = false;
-    window.history.pushState({}, "", `${base}/`);
+    window.history.pushState({}, "", `${window.location.origin}/`);
   }
 
   // Use final text as base text
@@ -100,7 +99,7 @@
     state = States.Init;
     editorMode = true;
     showNewQuickEDModal = false;
-    window.history.pushState({}, "", `${base}/`);
+    window.history.pushState({}, "", `${window.location.origin}/`);
   }
 
   // editor mode
@@ -109,7 +108,7 @@
     finalText = text;
     state = States.Editing
     // Change the URL without reloading the page
-    window.history.pushState({}, "", `${base}/`);
+    window.history.pushState({}, "", `${window.location.origin}/`);
   }
 
   //URL
@@ -121,7 +120,7 @@
   function generateURL() {
     let baseTextURI = encodeURIComponent(baseText);
     let finalTextURI = encodeURIComponent(finalText);
-    URL = `${base}/?base=${baseTextURI}&final=${finalTextURI}`;
+    URL = `${window.location.origin}/?base=${baseTextURI}&final=${finalTextURI}`;
   }
 
   // Show URL modal
