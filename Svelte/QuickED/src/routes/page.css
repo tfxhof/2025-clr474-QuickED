@@ -177,6 +177,16 @@
     background-color: #d29003;
   }
    
+  /* Botón "New QuickED*/
+  button.new-quicked {
+    background-color: #00ff2a;
+    color: #fff;
+  }
+  
+  button.new-quicked:hover {
+    background-color: #03cb24;
+  }
+
 
   /* Alerta por caracteres*/
   button.close-warning-modal {
@@ -250,6 +260,30 @@
 
   button.close-url-modal:hover {
     color: #890307; 
+  }
+
+  button.new-empty {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  button.new-empty:hover {
+    background-color: #388e3c;
+  }
+  
+  button.use-final-as-base {
+    background-color: #2196f3;
+    color: white;
+  }
+  
+  button.use-final-as-base:hover {
+    background-color: #1976d2;
+  }
+  
+  button.close-modal {
+    background-color: #f44336;
+    color: white;
+    margin-top: 20px;
   }
 
   /* Estilos para texto con diff */
