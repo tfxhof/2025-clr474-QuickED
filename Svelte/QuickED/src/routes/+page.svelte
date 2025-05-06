@@ -19,15 +19,28 @@
   let warningMessage = "";
   let showWarningModal = false;
 
+
+
+  // Check if the text length is less than or equal to limit characters
+  /**
+     * @param {string} inputText
+     * @param {number} limit
+     */
+  function validateTextLength(inputText, limit) {
+    if (inputText.length > limit) {
+      return `Text exceeds the ${limit}-character limit.`;
+    } else if (inputText.trim().length === 0) {
+      return "The text cannot be empty.";
+    }
+    return null;
+  }
   // Save base text function and change to editing state 
   // Check if the text length is less than or equal to 400 characters
   // If the text length exceeds 400 characters, show a warning modal
   function startEditing() {
-    if (text.length > 400) {
-      warningMessage = "The base text exceeds the 400-character limit.";
-      showWarningModal = true;
-    } else if (text.trim().length === 0) {
-      warningMessage = "The base text cannot be empty.";
+    const error = validateTextLength(text, 400);
+    if (error) {
+      warningMessage = error;
       showWarningModal = true;
     } else {
       baseText = text;
@@ -39,8 +52,9 @@
   // Check if the text length is less than or equal to 600 characters
   // If the text length exceeds 600 characters, show a warning modal
   function confirmChanges() {
-    if (text.length > 600) {
-      warningMessage = "The edited text exceeds the 600-character limit.";
+    const error = validateTextLength(text, 600);
+    if (error) {
+      warningMessage = error;
       showWarningModal = true;
     } else {
       finalText = text;
@@ -190,12 +204,12 @@
   <div class="content">
     {#if state === States.Init}
     <div class="box">
-      <h2>Insert the base text before start</h2>
+      <h2>Insert the text to edit</h2>
       <span class="limit" class:reached={text.length > 400}>{text.length}/400 characters</span>
       <textarea 
         bind:value={text} 
         class="edit"
-        placeholder="Insert the base text (400 char max)">
+        placeholder="Insert the text to edit">
       </textarea>
     </div>
     {/if}
@@ -327,7 +341,7 @@
           <button class="back-edit" on:click={backEdit}>&#8592; Back to Edit</button>
         </div>
         <div class="footer-section">
-          <button class="copy-url" on:click={showURL}>Generate and copy URL</button>
+          <button class="copy-url" on:click={showURL}>Copy URL</button>
         </div>
       {/if}
       <!-- Non editor mode-->
@@ -364,7 +378,7 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div class="modal-backdrop" on:click={closeURL}>
           <div class="modal" on:click|stopPropagation>
-            <h2>Generated URL</h2>
+            <h2>URL:</h2>
             <input type="text" readonly value={URL} class="url-display" />
             <div class="modal-buttons">
               <button class="copy-url" on:click={copyURL}>Copy</button>
