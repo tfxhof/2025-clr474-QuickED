@@ -25,4 +25,4 @@ jobs:
 
       - name: Run tests
         working-directory: ./Svelte/QuickED
-        run: npm test
+        run: npm vitest run
