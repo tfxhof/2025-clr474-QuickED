@@ -29,6 +29,18 @@
     margin-bottom: 10px;
   }
 
+  /* Small screen styles */
+  @media (max-width: 600px) {
+    .box {
+      width: 95%;
+    }
+
+    textarea,
+    .diff-textarea{
+      width: 90%;
+    }
+  }
+
   /* Background and alignment */
 
   /* Header styles */
@@ -86,13 +98,6 @@
   textarea.edit:focus {
     border-color: blue; 
     outline: none; 
-  }
-
-  /* Text-box for the initial and final text */
-  textarea.initial-text,
-  textarea.confirmed-text {
-    width: 90%;
-    padding: 20px;
   }
 
   /* Button container */
