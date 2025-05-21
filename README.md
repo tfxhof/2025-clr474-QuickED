@@ -26,16 +26,15 @@ To test the QuickED application, follow these steps:
      ```bash
      npm run dev
      ```
-   - The application will be available at the local address shown in the terminal (usually [http://localhost:5173](http://localhost:5173)).
+   - The application will be available at the local address shown in the terminal.
 
-4.1 **Build the App and Preview the Production Build**
-   - Alternatively, you can create a production version of the app
-   ```sh--
-
-   npm run build
-   ```
+5. **Build the App and Preview the Production Build**
+   - Alternatively, you can create a production version of the app:
+      ```bash
+      npm run build
+      ```
    - Preview it locally:
-   ```sh
-   npm run preview
-   ```
+      ```bash
+      npm run preview
+      ```
    -This will start a local server to preview the optimized production build of your app.
