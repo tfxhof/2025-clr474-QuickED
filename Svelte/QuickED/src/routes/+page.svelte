@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import "../routes/page.css";
   import { diffWords } from 'diff';
+  import { generateURL, readURLParameters } from '$lib/URLfunctions.js';
 
   // State Enumeration
   const States = {
@@ -18,7 +19,6 @@
   let finalText = "";
   let warningMessage = "";
   let showWarningModal = false;
-
 
 
   // Check if the text length is less than or equal to limit characters
@@ -59,7 +59,7 @@
     } else {
       finalText = text;
       state = States.ShowBoth
-      generateURL();
+      URL = generateURL(baseText, finalText, window.location.origin);
       // Change the URL without reloading the page
       window.history.pushState({}, "", URL);
     }  
@@ -128,18 +128,10 @@
   //URL
   let URL = "";
   let showURLModal = false;
-  let editorMode = true;
-
-  // Generate URL with base and final text
-  function generateURL() {
-    let baseTextURI = encodeURIComponent(baseText);
-    let finalTextURI = encodeURIComponent(finalText);
-    URL = `${window.location.origin}/?base=${baseTextURI}&final=${finalTextURI}`;
-  }
+  let editorMode = true
 
   // Show URL modal
   function showURL() {
-    generateURL();
     showURLModal = true;
   }
 
@@ -159,13 +151,13 @@
     showURLModal = false;
   }
   
-  // Read URL parameters
-  function readURLParameters() {
-    const params = new URLSearchParams(window.location.search);
-    baseText = decodeURIComponent(params.get("base") || "");
-    finalText = decodeURIComponent(params.get("final") || "");
+  // URL parameters
+  function handleURLParameters() {
+    const { baseT: base, finalT: final } = readURLParameters(window.location.search);
+    baseText = base;
+    finalText = final;
     if (baseText || finalText) {
-      state = States.ShowBoth; // Change to show both state if there is data in the URL
+      state = States.ShowBoth; // Change to ShowBoth state if there is data in the URL
       editorMode = false;
     }
     else {
@@ -176,7 +168,7 @@
   
   // Check if there are parameters in the URL
   onMount(() => {
-    readURLParameters();
+    handleURLParameters();
   });
   
 
