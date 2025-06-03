@@ -28,13 +28,18 @@ To test the QuickED application, follow these steps:
      ```
    - The application will be available at the local address shown in the terminal.
 
-5. **Build the App and Preview the Production Build**
-   - Alternatively, you can create a production version of the app:
+   4.1. **(Alternative) Build the App and Preview the Production Build**
+      - Alternatively, you can create a production version of the app:
       ```bash
       npm run build
       ```
-   - Preview it locally:
+      - Preview it locally:
       ```bash
       npm run preview
       ```
-   -This will start a local server to preview the optimized production build of your app.
+5. **Run Tests**
+   - To execute the test suite, run:
+     ```bash
+     npm test
+     ```
+   - This will run all configured tests and display the results in the terminal.
