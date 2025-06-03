@@ -1,7 +1,11 @@
-import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vitest/config'
+import {sveltekit} from '@sveltejs/kit/vite'
+import {svelteTesting} from '@testing-library/svelte/vite'
 
 export default defineConfig({
-	plugins: [sveltekit()],
-	//base: "/QuickED",
-});
+  plugins: [sveltekit(), svelteTesting()],
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./vitest-setup.js'],
+  },
+})
