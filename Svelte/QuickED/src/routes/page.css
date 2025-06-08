@@ -368,3 +368,15 @@
   input:checked + .slider:before {
     transform: translateX(20px);
   }
+
+  /* Small screen styles */
+  @media (max-width: 800px) {
+    .box {
+      width: 95%;
+    }
+
+    textarea,
+    .diff-textarea{
+      width: 90%;
+    }
+  }
