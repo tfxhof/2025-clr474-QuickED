@@ -1,6 +1,19 @@
 # QuickED
 
-To test the QuickED application, follow these steps:
+---
+
+## Metadatos TfxHoF
+
+- Autor: [Carlos Lavín Ruiz]()
+- Título: [Herramienta web para la revisión ligera de textos](https://repositorio.unican.es/xmlui/handle/10902/33693)
+- Fecha: Junio 2025
+- Link a herramienta: https://quicked.pages.dev/
+
+---
+
+## Local installation
+
+To test locally the QuickED application, follow these steps:
 
 1. **Download the Repository**
    - You can either clone the repository using Git:
