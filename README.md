@@ -5,7 +5,7 @@
 ## Metadatos TfxHoF
 
 - Autor: [Carlos Lavín Ruiz]()
-- Título: [Herramienta web para la revisión ligera de textos](https://repositorio.unican.es/xmlui/handle/10902/33693)
+- Título: [Herramienta web para la revisión ligera de textos]()
 - Fecha: Junio 2025
 - Link a herramienta: https://quicked.pages.dev/
 
